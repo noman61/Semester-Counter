@@ -17,7 +17,7 @@ $msg="";
  if($start=='1970-01-01')
 {
 	$msg="Please insert a valid date.";
-	header('Location:home.php?msg='.$msg);
+	header('Location:index.php?msg='.$msg);
 }
 else if($test!=0)
 {
@@ -26,17 +26,17 @@ else if($test!=0)
 	$row=mysql_fetch_array($row);
      $event=$row['event'];
      $msg=$dateprint." is ".$event.".";
-	header('Location:home.php?msg='.$msg);
+	header('Location:index.php?msg='.$msg);
 
 }
 else if ($dayNo=='5'||$dayNo=='6') 
 {
  $msg=$dateprint." is a weekly holiday.";
-	header('Location:home.php?msg='.$msg);
+	header('Location:index.php?msg='.$msg);
 }
 else
 {
 	$msg=$dateprint." is a onday.";
-	header('Location:home.php?msg='.$msg);
+	header('Location:index.php?msg='.$msg);
 }
 ?>

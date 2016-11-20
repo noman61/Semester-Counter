@@ -17,17 +17,48 @@ $userRow=mysql_fetch_array($res);
 <head>
   <!--meta http-equiv="refresh"content="5"/-->
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Home-<?php echo $userRow['userEmail']; ?></title>
+  <title>Admin<?php echo $userRow['userEmail']; ?></title>
   <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css"  />
   <link rel="stylesheet" href="style.css" type="text/css" />
+  <style type="text/css">
+    span.glyphicon {
+      font-size: 17px;  
+    }
+    span.glyphicon-pencil {
+      font-size: 18px;  
+    }
+    span.glyphicon-time {
+      font-size: 20px;  
+    }
+
+    span.glyphicon-remove-sign {
+      font-size: 20px;  
+    }
+
+    span.glyphicon-user {
+      font-size: 30px;  
+      background-color: none;
+    }
+    span.glyphicon-eye-open{
+      font-size: 30px;  
+      background-color: none;
+    }
+     span.glyphicon-search{
+      font-size: 30px;  
+      background-color: none;
+    }
+   
+   
+
+  </style>
 </head>
 <body>
 
-	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:#9FA3F5;">
+	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:#0411A5">
     <div class="container">
       <div class="navbar-header">
-        <img src="sust.png" alt="SUST-logo" style="height:70px;width:auto;float: left;">
-        <a class="navbar-brand" href="home.php" style="color:#021039;margin-left: 5px;">Shahjalal University of Science and Technology</a>
+        <img src="sust.png" alt="SUST-logo" style="height:100px;width:relative;float: left;">
+        <a class="navbar-brand" href="home.php" style="color:#FFFFFF;margin-left: 5px;font-size: 25px;">Shahjalal University of Science and Technology</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
@@ -46,25 +77,35 @@ $userRow=mysql_fetch_array($res);
   </nav> 
 
   <!--1st -->
-  <br><br><br><br>
+  <br><br><br><br><br><br><br>
   <div class="panel panel-default" style="margin-left: 10px;
   margin-right: 10px;">
   <div class="panel-body ">
-    <div class="col-xs-4 text-left">
+    <div class="col-xs-7 text-left" style="margin-left:2%;">
+      <form action="homebody_2.php" method="post" autocomplete="off" >
+        <span style="color: #F29010;" class="glyphicon glyphicon-calendar"></span>&nbsp;
+
+        <input placeholder="Start Date"  type="date" name="start" id="start" style=" border-radius: 10px;">
+        <span style="color: #F29010;" class="glyphicon glyphicon-resize-horizontal"></span>&nbsp;
+        <input placeholder="End Date"  type="date" name="end" id="end" style=" border-radius: 10px;">
+        <span style="color: #F29010;" class="glyphicon glyphicon-pencil"></span>&nbsp;
+        <input type="text" name="event" placeholder="EVENT" style=" border-radius: 10px;">
+        <input type="submit" name="holyday" onclick="return confirm('Are you sure you want to add new events?');" class="btn btn-success btn-sm">
+        <!--br> <h4 style="color: blue;"><?php echo $msg;?></h4-->
+      </form>
+    </div>
+    <div class="col-xs-3 text-left">
      <form action="homebody.php" method="post" autocomplete="off" style="color: black;">
-      START DATE:<input placeholder="starting time"  type="date" name="date1" id="date1" style=" border-radius: 10px;">
-      <input type="submit" name="sub" class="btn btn-success btn-sm">
-    </form>
-  </div>
-
-  <div class="col-xs-8 text-left">
-    <form action="homebody_2.php" method="post" autocomplete="off" >
-
-      EVENT FROM<input placeholder="Start Date"  type="date" name="start" id="start" style=" border-radius: 10px;">
-      EVENT TO:<input placeholder="End Date"  type="date" name="end" id="end" style=" border-radius: 10px;">
-      EVENT:<input type="text" name="event" placeholder="Event" style=" border-radius: 10px;">
-      <input type="submit" name="holyday" class="btn btn-success btn-sm">
-      <!--br> <h4 style="color: blue;"><?php echo $msg;?></h4-->
+       <span style="color: #F29010;" class="glyphicon glyphicon-time"></span>&nbsp;
+       <input placeholder="starting time"  type="date" name="date1" id="date1" style=" border-radius: 10px;">
+       <input type="submit" name="sub" value="START" onclick="return confirm('Are you sure you want to start a new semester?');" class="btn btn-success btn-sm">
+     </form>
+   </div>
+   <div class="col-xs-1 text-center">
+     <form method="post" action="#">
+       <button type="submit" name="reset" value="reste" class="btn btn-danger btn-sm ">
+        <span class="glyphicon glyphicon-remove-sign"></span> RESET
+      </button>
     </form>
   </div>
 </div>
@@ -73,28 +114,35 @@ $userRow=mysql_fetch_array($res);
   <!--2nd panel -->
   <div class="panel panel-default">
     <div class="panel-body">
-      <div>
+      <div class="col-xs-4 text-left" >
        <form method="post" action="datecheck.php">
-        <input type="date" class="col-xs-2 text-left" name="search" style=" border-radius: 10px;margin-left: 50px;">
-        <input type="submit" name="searchbtn" value="SEARCH" class="btn btn-success btn-sm col-xs-1 text-center">
+        <input type="date" name="search" style=" border-radius: 10px;margin-left: 50px;height: 35px;">
+
+        <button type="submit" name="searchbtn" value="SEARCH" class="btn btn-success btn-sm">
+          <span class="glyphicon glyphicon-search"></span>SEARCH
+        </button>
       </form>
     </div>
-    <div>
-      <form action="view.php" method="post" autocomplete="off">
-        <button type="submit" class="btn btn-success btn-sm col-xs-2 text-center" name="view" style="margin-left: 50px;">VIEW HOLIDAYS</button>
-      </form>
+    <div class="col-xs-4 text-left" >
+       <form action="view.php" method="post">
+      <button type="submit" class="btn btn-success" style="margin-left: 40px;">
+       <a style="text-decoration: none;text-decoration-color: white;color: white;">
+         <span class="glyphicon glyphicon glyphicon-eye-open text-center"></span>VIEW HOLIDAYS
+       </button></a>
+     </form>
     </div>
-    <div>
-    <form action="#information" method="post">
-      <button type="button" class="btn btn-info btn-sm col-xs-2 text-right" name="info" style="margin-left: 50px;">INFORMATION</button>
+    <div class="col-xs-4 text-left" >
     </form>
-    </div>
-    <div>
-  </form>
-  <form action="#reste all data" method="post">
-    <button type="button" class="btn btn-danger btn-sm col-xs-2 text-right" name="reset" style="margin-left: 50px;">RESET</button>
-  </form>
-  </div>
+    <div>      
+      <form action="manage.php" method="post">
+      <button type="submit" class="btn btn-success" style="margin-left: 40px;">
+       <a style="text-decoration: none;text-decoration-color: white;color: white;">
+         <span class="glyphicon glyphicon-user text-center"></span>ACCOUNT
+       </button></a>
+     </form>
+   </div>
+
+ </div>
 </div>
 </div>
 <div class="page-header">
@@ -232,7 +280,7 @@ $userRow=mysql_fetch_array($res);
    <?php function STARTINGDATE($startingdate)
    {?>  
    <h1 style="text-align: center; color: rgb(168, 64, 64);
-   font-size: 50px;
+   font-size: 45px;
    text-shadow: rgb(255, 255, 255) 0px -1px 4px, rgb(255, 255, 0) 0px -2px 10px, rgb(255, 128, 0) 0px -10px 20px, rgb(255, 0, 0) 0px -18px 40px;"> <?php
    $startingdate = date("d-M-Y", strtotime($startingdate));
    echo "Semester Started: ".$startingdate; ?> </h1> <?php

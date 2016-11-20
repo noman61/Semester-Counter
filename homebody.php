@@ -1,6 +1,9 @@
 <?php
 $query=mysql_connect("localhost","root","");
 include_once 'dbconnect.php';
+if( isset($_SESSION['user'])=="" ){
+		header("Location: index.php");
+	}
 $insertdate = trim($_POST['date1']);
 $insertdate = mysql_real_escape_string($insertdate);
 // date formation for php mysql

@@ -1,6 +1,9 @@
 <?php
 $query=mysql_connect("localhost","root","");
 include_once 'dbconnect.php';
+if( isset($_SESSION['user'])=="" ){
+		header("Location: index.php");
+	}
 $start = trim($_POST['start']);
 $end = trim($_POST['end']);
 $event = trim($_POST['event']);

@@ -1,141 +1,331 @@
 <?php
-	ob_start();
-	session_start();
-	require_once 'dbconnect.php';
-	
+ob_start();
+session_start();
+require_once 'dbconnect.php';
+
 	// it will never let you open index(login) page if session is set
-	if ( isset($_SESSION['user'])!="" ) {
-		header("Location: home.php");
-		exit;
-	}
-	
-	$error = false;
-	
-	if( isset($_POST['btn-login']) ) {	
-		
-		// prevent sql injections/ clear user invalid inputs
-		$email = trim($_POST['email']);
-		$email = strip_tags($email);
-		$email = htmlspecialchars($email);
-		
-		$pass = trim($_POST['pass']);
-		$pass = strip_tags($pass);
-		$pass = htmlspecialchars($pass);
-		// prevent sql injections / clear user invalid inputs
-		
-		if(empty($email)){
-			$error = true;
-			$emailError = "Please enter your email address.";
-		} else if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
-			$error = true;
-			$emailError = "Please enter valid email address.";
-		}
-		
-		if(empty($pass)){
-			$error = true;
-			$passError = "Please enter your password.";
-		}
-		
-		// if there's no error, continue to login
-		if (!$error) {
-			
-			$password = hash('sha256', $pass); // password hashing using SHA256
-		
-			$res=mysql_query("SELECT userId, userName, userPass FROM users WHERE userEmail='$email'");
-			$row=mysql_fetch_array($res);
-			$count = mysql_num_rows($res); // if uname/pass correct it returns must be 1 row
-			
-			if( $count == 1 && $row['userPass']==$password ) {
-				$_SESSION['user'] = $row['userId'];
-				header("Location: home.php");
-			} else {
-				$errMSG = "Incorrect Credentials, Try again...";
-			}
-				
-		}
-		
-	}
+if ( isset($_SESSION['user'])!="" ) {
+	header("Location: home.php");
+	exit;
+}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Smart Home Login</title>
-<link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css"  />
-<link rel="stylesheet" href="style.css" type="text/css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Smart Home Login</title>
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css"  />
+	<link rel="stylesheet" href="style.css" type="text/css" />
+	<style type="text/css">
+		span.glyphicon-search{
+			font-size: 30px;  
+			background-color: none;
+		}
+		span.glyphicon-home{
+			font-size: 30px;  
+			background-color: none;
+		}
+		span.glyphicon-eye-open{
+			font-size: 30px;  
+			background-color: none;
+		}
+		span.lock1{
+			font-size: 30px;  
+			background-color: none;
+		}
+	</style>
 </head>
 <body>
-<?php include 'heading.php';?>
-<div class="container">
+	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:#0411A5;">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">
+					<img src="sust.png" alt="SUST-logo" style="height:100px;width:relative;float: left;">
+					<a class="navbar-brand" href="#" style="color:#FFFFFF;margin-left: 2px;font-size: 25px;">Shahjalal University of Science and Technology</a>
+				</div>
+			</div>
+		</nav>
+		<div class="container">
 
-	<div id="login-form">
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
-    
-    	<div class="col-md-12">
-        
-        	<div class="form-group">
-            	<h2 class=""></h2>
-            </div>
-        
-        	<div class="form-group">
-            	<hr />
-            </div>
-            
-            <?php
-			if ( isset($errMSG) ) {
-				
-				?>
-				<div class="form-group">
-            	<div class="alert alert-danger">
-				<span class="glyphicon glyphicon-info-sign"></span> <?php echo $errMSG; ?>
-                </div>
-            	</div>
-                <?php
-			}
-			?>
-            
-            <div class="form-group">
-            	<div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-            	<input type="email" name="email" class="form-control" placeholder="Your Email" value="<?php echo $email; ?>" maxlength="40" />
-                </div>
-                <span class="text-danger"><?php echo $emailError; ?></span>
-            </div>
-            
-            <div class="form-group">
-            	<div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-            	<input type="password" name="pass" class="form-control" placeholder="Your Password" maxlength="15" />
-                </div>
-                <span class="text-danger"><?php echo $passError; ?></span>
-            </div>
-            
-            <div class="form-group">
-            	<hr />
-            </div>
-            
-            <div class="form-group">
-            	<button type="submit" class="btn btn-block btn-primary" name="btn-login">Sign In</button>
-            </div>
-            
-            <div class="form-group">
-            	<hr />
-            </div>
-            
-            <div class="form-group">
-            	<a href="register.php">Sign Up Here...</a>
-            </div>
-        
-        </div>
-   
-    </form>
-    </div>	
 
+
+			<br><br><br><div class="panel panel-default"  style="height: 70px;margin-left: 5px;">
+			<div class="panel-body">
+				<div>
+				</form>
+				<!--SEARCH-->
+
+				<div class="col-xs-5 text-right" style="padding-right: 20px;">
+					<form method="post" action="datecheckuser.php">
+						<input type="date" name="search" style=" border-radius: 10px;height:35px;">
+						<button type="submit" name="searchbtn" value="SEARCH" class="btn btn-success btn-sm">
+							<span class="glyphicon glyphicon-search"></span>SEARCH
+						</button>
+					</form>
+				</div>     
+				<!-- index-->
+				<div class="col-xs-2 text-left" style=""> 
+					<form action="index.php" method="post">
+						<button type="submit" class="btn btn-success" style="float: left;margin-left: 5px;">
+							<a style="text-decoration: none;text-decoration-color: white;color: white;">
+								<span class="glyphicon glyphicon-home "></span>HOME
+							</button></a>
+						</form>
+					</div>
+					<!--view holidays-->
+					<div class="col-xs-2 text-left">
+						<form action="userview.php">
+							<button type="submit" class="btn btn-success" style="float: left;padding-left: 10px;">
+								<a style="text-decoration: none;text-decoration-color: white;color: white;">
+									<span class="glyphicon glyphicon-eye-open text-center"></span>HOLIDAYS
+								</button></a>
+							</form>
+						</div>
+						<!-- ADMIN-->
+						<div class="col-xs-2 text-left">
+						</form>     
+						<form action="useradmin.php" method="post">
+							<button type="submit" class="btn btn-success" style="float: left;margin-left: 40px;">
+								<a style="text-decoration: none;text-decoration-color: white;color: white;">
+									<span class="glyphicon glyphicon glyphicon-lock lock1"></span>ADMIN
+								</button></a>
+							</form>
+						</div>
+
+					</div>
+				</div>
+				<!--here will be serach option and fron page of the admin and user-->
+
+
+
+
+
+
+
+
+				<div class="page-header">
+					<div style="box-shadow: inset 0px 0px 50px 0px #1A0707,5px 5px 5px 1px #242424;
+					-webkit-box-shadow: inset 0px 0px 50px 0px #1A0707,5px 5px 5px 1px #242424;
+					-moz-box-shadow: inset 0px 0px 50px 0px #1A0707,5px 5px 5px 1px #242424;
+					-o-box-shadow: inset 0px 0px 50px 0px #1A0707,5px 5px 5px 1px #242424;height: 90px;margin-bottom: 20px;">
+					<h3 style="text-align: center;color: #F29010;padding-top: 7px;">Welcome to Semester Counter</h3>
+					<!-- print the message-->
+					<?php 
+					if(!empty($_GET['msg']))
+						{ ?>
+					<h3 style="text-align: center;color: #532FE0"><?php echo $_GET['msg']; ?></h3>
+					<?php }
+					?>
+				</div>
+				<div class="col-lg-12" style="box-shadow: inset 0px 0px 50px 0px #1A0707,5px 5px 5px 1px #242424;
+				-webkit-box-shadow: inset 0px 0px 50px 0px #1A0707,5px 5px 5px 1px #242424;
+				-moz-box-shadow: inset 0px 0px 50px 0px #1A0707,5px 5px 5px 1px #242424;
+				-o-box-shadow: inset 0px 0px 50px 0px #1A0707,5px 5px 5px 1px #242424;padding-bottom: 20px;">
+				<div class="container">
+					<?php 
+      // semester starting date
+					$res=mysql_query("SELECT * FROM `counter_start` WHERE id='1'");
+					$userRow=mysql_fetch_array($res);
+					$startingdate=date("Y-m-d", strtotime($userRow['start']));
+          // semester starting date close 
+					$currentdate= date('Y-m-d');
+//calculating day difference
+					$date1=date_create("$startingdate");
+					$date2=date_create("$currentdate");
+					$diff=date_diff($date1,$date2);
+					$diff=$diff->format("%a");
+					$diff=$diff+1;
+    //echo "<br>day different".$diff."<br>";
+//get all the date between starting date and current date 
+					$begin = new DateTime( $startingdate);
+					$end = new DateTime(  $currentdate );
+					$end = $end->modify( '+1 day' ); 
+					$interval = new DateInterval('P1D');
+					$daterange = new DatePeriod($begin, $interval ,$end); 
+					$count=0;
+     // all date between todays and starting date
+					foreach($daterange as $date)
+					{
+       $alldate = $date->format("Y-m-d");// all day between two date
+       $dayNo= date('N', strtotime( $alldate));// day no
+      // echo "<br>";
+      //check holy day start
+       $test = "SELECT `date` FROM `sust_student` WHERE `date`='$alldate'";
+       $test = mysql_query($test);
+       $test = mysql_num_rows($test);
+
+       if($test!=0)
+       {
+       // echo "holiday day";
+       // echo "<br>";
+       	$count+=1;
+       }
+       else if ($dayNo=='5'||$dayNo=='6') 
+       {
+      // echo "Friday or Sunday"."<br>";
+       	$count+=1;
+       }
+   }
+   $pcount=$count;
+   $totalOnday=$diff-$count;
+   $W=0;
+   $D=0;
+   if($totalOnday==1)
+   {
+   	$W=1;
+   	$D="A";
+   }
+   else if($totalOnday==2)
+   {
+   	$W=1;
+   	$D="B";
+   }
+   else if($totalOnday==3)
+   {
+   	$W=1;
+   	$D="C";
+   }
+   else if($totalOnday==4)
+   {
+   	$W=1;
+   	$D="D";
+   }
+   else if($totalOnday==5)
+   {
+   	$W=1;
+   	$D="E";
+   }
+   else if($totalOnday>5)
+   {
+   	$W=(int)(($totalOnday/5)+1);
+   	$DAY=($totalOnday%5);
+
+   	if($DAY==1)
+   	{
+   		$D="A";
+   	}
+   	else if($DAY==2)
+   	{
+   		$D="B";
+   	}
+   	else if($DAY==3)
+   	{
+   		$D="C";
+   	}
+   	else if($DAY==4)
+   	{
+   		$D="D";
+   	}
+   	else
+   		$D="E";
+   }
+   $count="WEEK: ".$W." :: DAY: ".$D;
+   COUNTER($count);
+   STARTINGDATE($startingdate);
+ //TODAYCHECK($currentdate);
+   ?>
+   <!--SEMESTER COUNTER-->
+   <div style="text-align: center;">
+   	<?php function COUNTER($totalOnday)
+   	{?>
+   	<h1  style=" text-align: center; color: rgb(255, 0, 0);
+   	font-size: 70px;
+   	text-shadow: rgb(255, 255, 255) 0px -1px 4px, rgb(255, 255, 0) 0px -2px 10px, rgb(255, 128, 0) 0px -10px 20px, rgb(255, 0, 0) 0px -18px 40px;"> <?php echo $totalOnday; ?> </h1> <?php
+   }
+   ?>
+   <!--SEMESTER starting date-->
+   <div class="wrapper">
+   	<?php function STARTINGDATE($startingdate)
+   	{?>  
+   	<h1 style="text-align: center; color: rgb(168, 64, 64);
+   	font-size: 45px;
+   	text-shadow: rgb(255, 255, 255) 0px -1px 4px, rgb(255, 255, 0) 0px -2px 10px, rgb(255, 128, 0) 0px -10px 20px, rgb(255, 0, 0) 0px -18px 40px;"> <?php
+   	$startingdate = date("d-M-Y", strtotime($startingdate));
+   	echo "Semester Started: ".$startingdate; ?> </h1> <?php
+   }
+   ?>
 </div>
+<!-- add clock with current date and time -->
+<script type="text/javascript">
+	tday=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+	tmonth=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
 
+	function GetClock(){
+		var d=new Date();
+		var nday=d.getDay(),nmonth=d.getMonth(),ndate=d.getDate(),nyear=d.getYear();
+		if(nyear<1000) nyear+=1900;
+		var nhour=d.getHours(),nmin=d.getMinutes(),nsec=d.getSeconds(),ap;
+
+		if(nhour==0){ap=" AM";nhour=12;}
+		else if(nhour<12){ap=" AM";}
+		else if(nhour==12){ap=" PM";}
+		else if(nhour>12){ap=" PM";nhour-=12;}
+
+		if(nmin<=9) nmin="0"+nmin;
+		if(nsec<=9) nsec="0"+nsec;
+
+		document.getElementById('clockbox').innerHTML="Today: "+tday[nday]+", "+tmonth[nmonth]+" "+ndate+","+nyear+" "+nhour+":"+nmin+":"+nsec+ap+"";
+	}
+
+	window.onload=function(){
+		GetClock();
+		setInterval(GetClock,1000);
+	}
+</script>
+<div  style="text-align: center;color: rgb(173, 121, 121);
+font-size: 30px;
+//background-color: rgb(232, 204, 204);
+text-shadow: rgb(255, 255, 255) 0px 0px 5px, rgb(255, 255, 255) 0px 0px 10px, rgb(255, 255, 255) 0px 0px 15px, rgb(255, 45, 149) 0px 0px 20px, rgb(255, 45, 149) 0px 0px 30px, rgb(255, 45, 149) 0px 0px 40px, rgb(255, 45, 149) 0px 0px 50px, rgb(255, 45, 149) 0px 0px 75px;">
+<div id="clockbox"></div>
+<!--today is a on day or off day-->
+<?php TODAYCHECK($currentdate); ?>
+<div class="wrapper">
+	<?php function TODAYCHECK($currentdate)
+	{ 
+   $dayNo= date('N', strtotime( $currentdate));// day no
+   $test = "SELECT `date` FROM `sust_student` WHERE `date`='$currentdate'";
+   $test = mysql_query($test);
+   $test = mysql_num_rows($test);
+
+   if($test!=0)
+   {
+   	$today="is a holiday.";
+   }
+   else if ($dayNo=='5'||$dayNo=='6') 
+   {
+   	$today="is a weekly holiday.";
+   }
+   else
+   {
+   	$today="is a onday.";
+   }
+   echo $today;
+}
+?>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div style=" box-shadow: inset 0px 0px 50px 0px #1A0707,5px 5px 5px 1px #242424;
+-webkit-box-shadow: inset 0px 0px 50px 0px #1A0707,5px 5px 5px 1px #242424;
+-moz-box-shadow: inset 0px 0px 50px 0px #1A0707,5px 5px 5px 1px #242424;
+-o-box-shadow: inset 0px 0px 50px 0px #1A0707,5px 5px 5px 1px #242424;height: 200px;margin-left: 105px;margin-right: 105px;font-size: 20px;margin-top:40px;"> <div><h3 style="text-align: center;padding-top:56px;margin-left: 20px;margin-right:30px;color:#532FE0;">It is <?php echo date('d-M-Y')?> today and your semester had been started on <?php echo date("d-M-Y", strtotime($startingdate));?>. You have allready passed <?php echo $diff; ?> day(s) which includes <?php echo $pcount;?> offday(s) and <?php echo $totalOnday?> academic day(s). Finish the course before the end of this semester.</h3> </div> 
+
+<section class="panel panel-default text-center" style="margin-top:9%;Background: #DEDEDE;
+font-family: arial;
+font-size: 12px;
+padding: 0px;">
+<!--div class="panel-body"-->
+<p>&copy;SUST-<?php echo date("Y");?></p>
+<!--/div-->
+<div class="panel-footer" style="padding-bottom: 0%;">Created by Pioneer,dept of CSE,SUST.</div>
+</section>
+</div>
+date
 </body>
 </html>
 <?php ob_end_flush(); ?>
-<section style="padding-top: 3%;">
-	<?php include 'footer.php';?>
-</section>

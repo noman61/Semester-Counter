@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2016 at 10:26 PM
+-- Generation Time: Nov 20, 2016 at 05:40 PM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -36,7 +36,7 @@ CREATE TABLE `counter_start` (
 --
 
 INSERT INTO `counter_start` (`id`, `start`) VALUES
-(1, '2016-11-19'),
+(1, '2016-08-01'),
 (2, '2016-11-07');
 
 -- --------------------------------------------------------
@@ -126,11 +126,7 @@ INSERT INTO `sust_student` (`user_id1`, `date`, `event`, `category1`) VALUES
 (1391, '2016-12-12', 'Eid-E-Miladun Nabi', '1'),
 (1392, '2016-12-14', 'Shaheed Intellectuals day', '1'),
 (1393, '2016-12-16', 'Victory day', '1'),
-(1394, '2016-12-25', 'Christmas day', '1'),
-(1395, '2016-11-17', 'test', ''),
-(1396, '2016-11-18', 'test', ''),
-(1397, '2016-11-19', 'test', ''),
-(1402, '2016-11-19', 'test', '');
+(1394, '2016-12-25', 'Christmas day', '1');
 
 -- --------------------------------------------------------
 
@@ -150,7 +146,6 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userId`, `userName`, `userEmail`, `userPass`) VALUES
-(1, 'noman', 'noman61@gmail.com', '414ed451e78fc703cec23fade62187bfcadb099409c6d50a06eb1b969a8e9a5b'),
 (3, 'Spectator Pioneer', 'spectatorpioneer@gmail.com', '6e117a29a19671194bda4604fde2d7175ffaff4712da82f986e796b3c3ea7462'),
 (4, 'minhaz', 'minhaz61@gmail.com', '3229a71e1765c46525f5bcd26689635f7346cefbcddbfa092bf1c2379f51e81f'),
 (5, 'test', 'test@gmail.com', '414ed451e78fc703cec23fade62187bfcadb099409c6d50a06eb1b969a8e9a5b');
@@ -190,7 +185,7 @@ ALTER TABLE `counter_start`
 -- AUTO_INCREMENT for table `sust_student`
 --
 ALTER TABLE `sust_student`
-  MODIFY `user_id1` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1403;
+  MODIFY `user_id1` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1396;
 --
 -- AUTO_INCREMENT for table `users`
 --

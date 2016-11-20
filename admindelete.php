@@ -6,9 +6,9 @@ if( isset($_SESSION['user'])=="" ){
 	}
     $id = $_GET['id'];
     echo $id;
-    $test=mysql_query("DELETE FROM `sust_student` WHERE user_id1=$id");
+    $test=mysql_query("DELETE FROM `users` WHERE userId=$id");
     if($test){
-    	$msg= "Successfully deleted";
-	header('Location:view.php?msg='.$msg);
+    	$msg= "You have successfully deleted and admin.";
+	header('Location:manage.php?msg='.$msg);
 }
 ?>
